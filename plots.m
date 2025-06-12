@@ -26,7 +26,7 @@ hold on;
 plot(time, rad2deg(indi.log.theta_log), 'b', 'LineWidth', lw);
 hold on;
 plot(time, rad2deg(pid.log.theta_des_log), 'k--', 'LineWidth', 0.5);
-xlabel('Time (s)'); ylabel('Theta (°)');
+xlabel('Time (s)'); ylabel('Pitch (°)');
 legend('PID','SMC','INDI');
 
 nexttile;
@@ -37,7 +37,7 @@ hold on;
 plot(time, rad2deg(indi.log.psi_log), 'b', 'LineWidth', lw);
 hold on;
 plot(time, rad2deg(pid.log.psi_des_log), 'k--', 'LineWidth', 0.5);
-xlabel('Time (s)'); ylabel('Psi (°)');
+xlabel('Time (s)'); ylabel('Yaw (°)');
 legend('PID','SMC','INDI');
 
 set(findobj(gcf,'type','axes'),'FontName', 'Arial', 'FontSize', 12);
