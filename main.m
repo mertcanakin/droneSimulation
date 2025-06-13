@@ -1,7 +1,7 @@
 clc; clear; close all
 
 % Select controller type --- PID: 0,   SMC: 1,   INDI: 2
-controller_type = 0;
+controller_type = 2;
 
 % === Parameters ===
 params.m = 1.0; % mass (kg)
@@ -315,29 +315,33 @@ end
 
 figure('Name', 'Results', 'Units', 'centimeters', 'Position', [10 2 20 20])
 
-t = tiledlayout(3,1);
-nexttile;
-plot(log.time, log.z_log, 'b', 'LineWidth', 1.5); hold on;
-plot(log.time, z_des*ones(size(log.time)), 'r--', 'LineWidth', 1.0);
-xlabel('Time (s)'); ylabel('Altitude (m)');
-legend('Actual', 'Desired', 'Location', 'best');
+t = tiledlayout(2,1);
+% nexttile;
+% plot(log.time, log.z_log, 'b', 'LineWidth', 1.5); hold on;
+% plot(log.time, z_des*ones(size(log.time)), 'r--', 'LineWidth', 1.0);
+% xlabel('Time (s)'); ylabel('Altitude (m)');
+% legend('Actual', 'Desired', 'Location', 'best');
 
 nexttile;
-plot(log.time, rad2deg(log.phi_log), 'r', log.time, rad2deg(log.theta_log), 'g', log.time, rad2deg(log.psi_log), 'm', 'LineWidth', 1.5);
+plot(log.time, rad2deg(log.phi_log), 'r', log.time, rad2deg(log.theta_log), 'g', log.time, rad2deg(log.psi_log), 'b', 'LineWidth', 1.5);
 hold on;
 plot(log.time, rad2deg(log.phi_des_log), 'r--', 'LineWidth', 1.0);
 plot(log.time, rad2deg(log.theta_des_log), 'g--', 'LineWidth', 1.0);
-plot(log.time, rad2deg(log.psi_des_log), 'm--', 'LineWidth', 1.0);
+plot(log.time, rad2deg(log.psi_des_log), 'b--', 'LineWidth', 1.0);
 xlabel('Time (s)'); ylabel('Angle (°)');
 legend('Roll', 'Pitch', 'Yaw', 'Location', 'northeast');
+grid minor
 
 nexttile;
 plot(log.time, log.T1_log, 'r', log.time, log.T2_log, 'g', log.time, log.T3_log, 'b', log.time, log.T4_log, 'm', 'LineWidth', 1.5);
 xlabel('Time (s)'); ylabel('Thrust (N)');
-legend('Motor 1', 'Motor 2', 'Motor 3', 'Motor 4', 'Location', 'best');
-
+legend('Motor 1', 'Motor 2', 'Motor 3', 'Motor 4', 'Location', 'northeast');
+grid minor
 set(findobj(gcf,'type','axes'),'FontName', 'Arial', 'FontSize', 12);
 arrayfun(@(x) grid(x,'on'), findobj(gcf,'Type','axes'))
+
+t.TileSpacing = 'compact';
+t.Padding = 'compact';
 
 if controller_type == 0
     controller_name = 'PID';
@@ -348,7 +352,7 @@ elseif controller_type == 2
 end
 
 sgtitle(['Results - ' controller_name ' Controller']);
-exportgraphics(gcf,['results_' controller_name '.png'], 'Resolution', 300)
+exportgraphics(gcf,['results_' controller_name '.png'], 'Resolution', 600)
 
 function out = sat(in, boundary)
     if abs(in) <= boundary
