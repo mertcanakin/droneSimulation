@@ -313,7 +313,7 @@ for i = 1:N
     log.psi_des_log(i) = psi_des;
 end
 
-figure('Name', 'Results', 'Units', 'centimeters', 'Position', [10 2 20 20])
+figure('Position', [100, 100, 500, 500], 'Color', 'w');
 
 t = tiledlayout(2,1);
 % nexttile;
