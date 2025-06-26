@@ -45,3 +45,7 @@ This simulates the delay between commanded and actual thrust.
 
 ### Sensor Noise
 Sensor measurements for altitude, velocity, angles, and angular rates are corrupted with Gaussian noise to simulate real-world sensor imperfections.
+
+<div align="center">
+  <img src="results.png" alt="Result" width="40%">
+</div>  
