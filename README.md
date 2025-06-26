@@ -24,8 +24,10 @@ The quadcopter is modeled with the following states:
 - **p, q, r**: angular rates (roll, pitch, yaw)
 
 ### Translational Dynamics
-The vertical (z) acceleration is computed as:
+The translational accelerations are computed as:
 ```
+ax = (-sin(theta_true)*Fz + Fx_wind)/params.m;
+ay = (sin(phi_true)*Fz + Fy_wind)/params.m;
 az = (sum of rotor thrusts) / mass - gravity
 ```
 
@@ -47,5 +49,5 @@ This simulates the delay between commanded and actual thrust.
 Sensor measurements for altitude, velocity, angles, and angular rates are corrupted with Gaussian noise to simulate real-world sensor imperfections.
 
 <div align="center">
-  <img src="results.png" alt="Result" width="40%">
+  <img src="quadcopter_anim.gif" alt="Result" width="40%">
 </div>  
