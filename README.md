@@ -1,6 +1,9 @@
 # Quadcopter Drone Simulation
 
-This repository contains a MATLAB simulation of a quadcopter with three control strategies: PID, Sliding Mode Control (SMC), and Incremental Nonlinear Dynamic Inversion (INDI).
+This repository contains a MATLAB simulation of a quadcopter with different control strategies and dynamics.
+
+## How to Run
+Simply execute either script directly in MATLAB - run `attitude_control.m` for basic attitude stabilization or `position_control.m` for more comprehensive position control scenarios with customizable parameters.
 
 ## Features
 - **Nonlinear quadcopter dynamics** 
@@ -8,27 +11,55 @@ This repository contains a MATLAB simulation of a quadcopter with three control 
 - **Sensor noise**
 - **Wind disturbances**
 - **Switchable controller**: Choice of PID, SMC, or INDI (set `controller_type` at the top of the script)
+- **Slung load dynamics**
 
-## How to Run
-1. Open `main.m` in MATLAB.
-2. Set the controller type at the top of the script:
-   - `controller_type = 0` for PID
-   - `controller_type = 1` for SMC
-   - `controller_type = 2` for INDI
-3. Run the script. Plots will be generated at the end of the simulation.
+```
+quadcopter-control/
+├── attitude_control.m 
+├── position_control.m         # Main simulation scripts
+├── functions/
+│   ├── slung_load_dynamics.m  # Slung dynamics calculation
+│   ├── slung_compensator.m    # Swing damping
+│   ├── rotor_thrust_mapping.m # Thrust allocation matrix
+│   ├── helix_trajectory.m     # Helical path generator
+│   ├── lpf.m                  # Low pass filter
+│   ├── sat.m                  # Saturation function
+│   └── log_and_plot.m         # Results visualization
+├── logs/                      # Logs are automatically recorded here
+├── figures/                   # Figures are automatically recorded here
+```
+
+## System Assumptions
+
+### Quadrotor Assumptions
+- The quadrotor is modeled as a rigid body
+
+- 1st order motor dynamics are included
+
+- Sensor noises are incorporated in the model
+
+- Wind disturbances are applied as both vertical forces and torques
+
+### Slung Load Assumptions
+- The cable has constant length and is massless
+
+- The load is modeled as a point mass
+
+- Movement in the x–z and y–z planes is independent (decoupled dynamics)
+
 
 ## Dynamics Overview
-The quadcopter is modeled with the following states:
-- **z**: altitude
-- **phi, theta, psi**: roll, pitch, yaw angles
-- **p, q, r**: angular rates (roll, pitch, yaw)
 
 ### Translational Dynamics
 The translational accelerations are computed as:
 ```
-ax = (-sin(theta_true)*Fz + Fx_wind)/params.m;
-ay = (sin(phi_true)*Fz + Fy_wind)/params.m;
-az = (sum of rotor thrusts) / mass - gravity
+ax = ( (-cos(phi)*sin(theta)*cos(psi) - sin(phi)*sin(psi)) * Fz ...
+      + Fx_slung + Fx_wind ) / m_total;
+
+ay = ( (-cos(phi)*sin(theta)*sin(psi) + sin(phi)*cos(psi)) * Fz ...
+      + Fy_slung + Fy_wind ) / m_total;
+
+az = ( cos(phi)*cos(theta)*Fz + Fz_slung + Fz_wind ) / m_total - g;
 ```
 
 ### Rotational Dynamics
@@ -48,6 +79,18 @@ This simulates the delay between commanded and actual thrust.
 ### Sensor Noise
 Sensor measurements for altitude, velocity, angles, and angular rates are corrupted with Gaussian noise to simulate real-world sensor imperfections.
 
+### Slung Load Dynamics
+```
+ddalpha = - (g / L) * sin(alpha) ...  % gravity effect
+          - d * dalpha ...            % damping
+          - ax_est / L;               % quad acceleration
+
+% Rotational acceleration in y axis
+% Normally coupled but due to singularity it was assumed as decoupled
+ddbeta = - (g / L) * sin(beta) ...    
+         - d * dbeta ...           
+         - ay_est / L;   
+```
 <div align="center">
-  <img src="quadcopter_anim.gif" alt="Result" width="40%">
+  <img src="quad_animation.gif" alt="Result" width="40%">
 </div>  
