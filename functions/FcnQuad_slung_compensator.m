@@ -1,4 +1,4 @@
-function [phi_comp, theta_comp] = slung_compensator(alpha, dalpha, beta, dbeta, l, Kp, Kd, g)
+function [phi_comp, theta_comp] = FcnQuad_slung_compensator(alpha, dalpha, beta, dbeta, l, Kp, Kd, g)
 
     ax_comp = - l * ( Kp * alpha + Kd * dalpha );
     ay_comp = - l * ( Kp * beta + Kd * dbeta );

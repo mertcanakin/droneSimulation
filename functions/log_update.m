@@ -1,0 +1,24 @@
+% Logging
+log.z_log(i) = pos_meas(3);
+log.phi_log(i) = angles_meas(1);
+log.theta_log(i) = angles_meas(2);
+log.psi_log(i) = angles_meas(3);
+log.T1_log(i) = T_actual(1);
+log.T2_log(i) = T_actual(2);
+log.T3_log(i) = T_actual(3);
+log.T4_log(i) = T_actual(4);
+log.phi_des_log(i) = phi_des;
+log.theta_des_log(i) = theta_des;
+log.psi_des_log(i) = psi_des;
+log.x_log(i) = pos_meas(1);
+log.y_log(i) = pos_meas(2);
+% log.accel_log(i,:) = [ax; ay; az];
+% log.accel_raw_log(i,:) = [a_est(1); a_est(2); a_est(3)];
+% log.gyro_log(i,:) = [p_new; q_new; r_new];
+log.alpha_log(i) = rad2deg(slung.state(1));
+log.beta_log(i)  = rad2deg(slung.state(3));
+log.phi_comp_log(i) = phi_comp;
+log.theta_comp_log(i) = theta_comp;
+log.x_des_log(i) = x_des;
+log.y_des_log(i) = y_des;
+log.z_des_log(i) = z_des;

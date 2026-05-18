@@ -1,10 +1,10 @@
-if controller_type == 0
+if ctrl.allocationMode  == "PID"
     controller_name = 'PID';
     save('logs/log_PID.mat', 'log');
-elseif controller_type == 1
+elseif ctrl.allocationMode  == "SMC"
     controller_name = 'SMC';
     save('logs/log_SMC.mat', 'log');
-elseif controller_type == 2
+elseif ctrl.allocationMode  == "INDI"
     controller_name = 'INDI';
     save('logs/log_INDI.mat', 'log');
 end

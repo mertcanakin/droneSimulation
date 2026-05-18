@@ -1,4 +1,4 @@
-function [slung_state_new, F_slung] = slung_load_dynamics(slung_state, L, d, mL, g, ax_est, ay_est, dt)
+function [slung_state_new, F_slung] = FcnQuad_slung_load_dynamics(slung_state, L, d, mL, g, ax_est, ay_est, dt)
 
 %% Call current states
 alpha  = slung_state(1);
